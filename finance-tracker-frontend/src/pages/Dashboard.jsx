@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import API from "../api/axios";
-import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis,LineChart, Line} from "recharts";
+import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis,LineChart, Line,CartesianGrid} from "recharts";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 
@@ -21,15 +21,15 @@ export default function Dashboard() {
   const { dark, setDark } = useTheme();
 
 
-  // Fetch transactions
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
  const fetchData = useCallback(async () => {
   const res = await API.get("/transactions");
   setTransactions(res.data);
 }, []);
+
+  // Fetch transactions
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
 
 
@@ -144,7 +144,7 @@ const cleanMonthlyData = monthlyData.map(({ name, value }) => ({
 }));
 
   return (
-    <div className={`${dark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"} min-h-screen p-6`}>
+    <div className={`${dark ? "bg-gray-900 text-white" : "bg-gray-100 text-black"} min-h-screen w-full p-6`}>
          {/* Sidebar */}
  
 
@@ -254,12 +254,19 @@ shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
   </h2>
 
   <div className="flex justify-center">
-    <LineChart width={500} height={300} data={cleanMonthlyData}>
-      <XAxis dataKey="name" stroke="#9ca3af" />
-      <YAxis stroke="#9ca3af" />
-      <Tooltip />
-      <Line type="monotone" dataKey="value" stroke="#8b5cf6" strokeWidth={3} />
-    </LineChart>
+   <LineChart width={500} height={300} data={cleanMonthlyData}>
+  <CartesianGrid strokeDasharray="3 3" />
+  <XAxis dataKey="name" />
+  <YAxis />
+  <Tooltip />
+  <Line
+    type="monotone"
+    dataKey="value"
+    stroke="#8b5cf6"
+    strokeWidth={3}
+    dot={{ r: 6 }}
+  />
+</LineChart>
   </div>
 </div>
 
@@ -311,7 +318,10 @@ shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
     ${dark 
       ? "bg-gray-700 text-white placeholder-gray-400" 
       : "bg-gray-200"}`}
-    onChange={(e) => setSearch(e.target.value)}
+    onChange={(e) => {
+  setSearch(e.target.value);
+  setPage(1);
+}}
   />
 </div>
  
