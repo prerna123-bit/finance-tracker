@@ -15,9 +15,9 @@ export default function Login() {
 
       // token save
       login({
-  token: res.data.token,
-  ...res.data.user
-});
+        token: res.data.token,
+        ...res.data.user
+      });
 
       alert("Login success ✅");
 
@@ -25,12 +25,12 @@ export default function Login() {
       navigate("/dashboard");
 
     } catch (err) {
-  console.log(err.response?.data);   // 👈 ADD THIS
-  alert("Login failed ❌");
-}
+      console.log(err.response?.data);   // 👈 ADD THIS
+      alert("Login failed ❌");
+    }
   };
- const navigate = useNavigate();
- const { login } = useAuth();
+  const navigate = useNavigate();
+  const { login } = useAuth();
   return (
     <div className="flex items-center justify-center h-screen bg-gray-200">
       <div className="bg-white p-6 rounded shadow w-80">
@@ -56,15 +56,15 @@ export default function Login() {
         >
           Login
         </button>
-       <p className="mt-3 text-sm text-center">
-  Don't have an account?{" "}
-  <span
-    className="text-blue-500 cursor-pointer hover:underline"
-    onClick={() => navigate("/register")}
-  >
-    Register
-  </span>
-</p>
+        <p className="mt-3 text-sm text-center">
+          Don't have an account?{" "}
+          <span
+            className="text-blue-500 cursor-pointer hover:underline"
+            onClick={() => navigate("/register")}
+          >
+            Register
+          </span>
+        </p>
       </div>
     </div>
   );
