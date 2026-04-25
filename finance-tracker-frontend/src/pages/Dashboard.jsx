@@ -4,6 +4,7 @@ import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, LineChart, L
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 
 export default function Dashboard() {
@@ -146,7 +147,6 @@ export default function Dashboard() {
       {/* Sidebar */}
       <Navbar />
 
-
       {/* 📊 Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div className={`bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-6 rounded-xl 
@@ -282,8 +282,8 @@ shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
         <button
           onClick={() => setFilter("all")}
           className={`px-4 py-1 rounded ${filter === "all"
-              ? "bg-gradient-to-r from-purple-500 to-indigo-600 text-white"
-              : "bg-gray-300"
+            ? "bg-gradient-to-r from-purple-500 to-indigo-600 text-white"
+            : "bg-gray-300"
             }`}
         >
           All
@@ -295,8 +295,8 @@ shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
             setPage(1);
           }}
           className={`px-4 py-1 rounded ${filter === "income"
-              ? "bg-green-600 text-white"
-              : "bg-gray-300"
+            ? "bg-green-600 text-white"
+            : "bg-gray-300"
             }`}
         >
           Income
@@ -305,8 +305,8 @@ shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
         <button
           onClick={() => setFilter("expense")}
           className={`px-4 py-1 rounded ${filter === "expense"
-              ? "bg-red-600 text-white"
-              : "bg-gray-300"
+            ? "bg-red-600 text-white"
+            : "bg-gray-300"
             }`}
         >
           Expense
@@ -430,6 +430,7 @@ ${dark
           </p>
         )}
       </div>
+      <Footer />
     </div>
   );
 }
