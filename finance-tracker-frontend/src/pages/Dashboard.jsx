@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import API from "../api/axios";
 import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis,LineChart, Line} from "recharts";
 import { useAuth } from "../context/AuthContext";
@@ -24,18 +24,17 @@ export default function Dashboard() {
   // Fetch transactions
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
- const fetchData = async () => {
+ const fetchData = useCallback(async () => {
   const res = await API.get("/transactions");
-  console.log(res.data);   // 👈 ADD THIS
   setTransactions(res.data);
-};
+}, []);
 
 
 
   // Add transaction
- const handleAdd = async () => {
+ const handleAdd = useCallback(async () => {
   try {
     if (!form.amount || !form.category) {
       alert("Fill all fields");
@@ -60,17 +59,17 @@ export default function Dashboard() {
   } catch (err) {
   console.log("ERROR:", err.response?.data || err.message);
 }
-};
+}, [form, editId, fetchData]);
 
 
-  const handleDelete = async (id) => {
+  const handleDelete = useCallback(async (id) => {
   try {
     await API.delete(`/transactions/${id}`);
     fetchData(); // refresh
   } catch (err) {
     console.log(err);
   }
-};
+}, [fetchData]);
  
 
 const total = useMemo(() => {
