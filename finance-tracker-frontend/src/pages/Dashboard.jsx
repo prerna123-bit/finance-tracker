@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import API from "../api/axios";
-import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, LineChart, Line, CartesianGrid } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, LineChart,Legend, Line, CartesianGrid } from "recharts";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import Navbar from "../components/Navbar";
@@ -169,33 +169,37 @@ shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
       </div>
 
 
-      {/* //piechart */}
-      <div className={`${dark
-        ? "bg-gray-800/80 border border-gray-700"
-        : "bg-white/80 border border-gray-200"} 
-  backdrop-blur-md p-6 rounded-2xl shadow-lg mb-6`}>
+      <div className="flex justify-center items-center">
+  <PieChart width={420} height={320}>
+    <Pie
+      data={chartData}
+      dataKey="value"
+      cx="50%"
+      cy="50%"
+      outerRadius={110}
+      innerRadius={65}
+      paddingAngle={8}
+      label={({ name, percent }) =>
+        `${name} ${(percent * 100).toFixed(0)}%`
+      }
+      animationDuration={1200}
+    >
+      <Cell fill="#22c55e" />
+      <Cell fill="#ef4444" />
+    </Pie>
 
-        <h2 className="font-semibold text-lg mb-4 flex items-center gap-2">
-          🥧 Income vs Expense
-        </h2>
+    <Tooltip
+      contentStyle={{
+        backgroundColor: "#1f2937",
+        borderRadius: "10px",
+        border: "none",
+        color: "#fff",
+      }}
+    />
 
-        <div className="flex justify-center">
-          <PieChart width={300} height={300}>
-            <Pie
-              data={chartData}
-              dataKey="value"
-              outerRadius={100}
-              innerRadius={50}
-              paddingAngle={5}
-            >
-              <Cell fill="#22c55e" /> {/* Income */}
-              <Cell fill="#ef4444" /> {/* Expense */}
-            </Pie>
-            <Tooltip />
-          </PieChart>
-        </div>
-      </div>
-
+    <Legend verticalAlign="bottom" height={36} />
+  </PieChart>
+</div>
       {/* //linechart */}
       <div className={`${dark
         ? "bg-gray-800/80 border border-gray-700"
