@@ -168,65 +168,75 @@ shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
         </div>
       </div>
 
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 
-      <div className="flex justify-center items-center">
-  <PieChart width={420} height={320}>
-    <Pie
-      data={chartData}
-      dataKey="value"
-      cx="50%"
-      cy="50%"
-      outerRadius={110}
-      innerRadius={65}
-      paddingAngle={8}
-      label={({ name, percent }) =>
-        `${name} ${(percent * 100).toFixed(0)}%`
-      }
-      animationDuration={1200}
-    >
-      <Cell fill="#22c55e" />
-      <Cell fill="#ef4444" />
-    </Pie>
-
-    <Tooltip
-      contentStyle={{
-        backgroundColor: "#1f2937",
-        borderRadius: "10px",
-        border: "none",
-        color: "#fff",
-      }}
-    />
-
-    <Legend verticalAlign="bottom" height={36} />
-  </PieChart>
-</div>
-      {/* //linechart */}
-      <div className={`${dark
+  {/* Pie Chart */}
+  <div
+    className={`${
+      dark
         ? "bg-gray-800/80 border border-gray-700"
-        : "bg-white/80 border border-gray-200"} 
-  backdrop-blur-md p-6 rounded-2xl shadow-lg mb-6`}>
+        : "bg-white/80 border border-gray-200"
+    } backdrop-blur-md p-6 rounded-2xl shadow-lg`}
+  >
+    <h2 className="font-semibold text-lg mb-4 flex items-center gap-2">
+      🥧 Income vs Expense
+    </h2>
 
-        <h2 className="font-semibold text-lg mb-4">
-          📈 Monthly Trend
-        </h2>
+    <div className="flex justify-center items-center">
+      <PieChart width={420} height={320}>
+        <Pie
+          data={chartData}
+          dataKey="value"
+          cx="50%"
+          cy="50%"
+          outerRadius={110}
+          innerRadius={65}
+          paddingAngle={8}
+          label={({ name, percent }) =>
+            `${name} ${(percent * 100).toFixed(0)}%`
+          }
+          animationDuration={1200}
+        >
+          <Cell fill="#22c55e" />
+          <Cell fill="#ef4444" />
+        </Pie>
 
-        <div className="flex justify-center">
-          <LineChart width={500} height={300} data={cleanMonthlyData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Line
-              type="monotone"
-              dataKey="value"
-              stroke="#8b5cf6"
-              strokeWidth={3}
-              dot={{ r: 6 }}
-            />
-          </LineChart>
-        </div>
-      </div>
+        <Tooltip />
+        <Legend verticalAlign="bottom" height={36} />
+      </PieChart>
+    </div>
+  </div>
 
+  {/* Line Chart */}
+  <div
+    className={`${
+      dark
+        ? "bg-gray-800/80 border border-gray-700"
+        : "bg-white/80 border border-gray-200"
+    } backdrop-blur-md p-6 rounded-2xl shadow-lg`}
+  >
+    <h2 className="font-semibold text-lg mb-4">
+      📈 Monthly Trend
+    </h2>
+
+    <div className="flex justify-center">
+      <LineChart width={500} height={300} data={cleanMonthlyData}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Line
+          type="monotone"
+          dataKey="value"
+          stroke="#8b5cf6"
+          strokeWidth={3}
+          dot={{ r: 6 }}
+        />
+      </LineChart>
+    </div>
+  </div>
+
+</div>
 
       {/* //barchart      */}
       <div className={`${dark
