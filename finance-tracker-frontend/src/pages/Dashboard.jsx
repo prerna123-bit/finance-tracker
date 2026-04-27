@@ -71,23 +71,30 @@ export default function Dashboard() {
   }, [fetchData]);
 
 
- const total = useMemo(() => {
-  return transactions.reduce((sum, t) => sum + Number(t.amount), 0);
-}, [transactions]);
-
+  const total = useMemo(() => {
+    return transactions.reduce(
+      (sum, t) => sum + (parseFloat(t.amount) || 0),
+      0
+    );
+  }, [transactions]);
 
   const income = useMemo(() => {
-  return transactions
-    .filter(t => Number(t.amount) > 0)
-    .reduce((sum, t) => sum + Number(t.amount), 0);
-}, [transactions]);
+    return transactions
+      .filter(t => (parseFloat(t.amount) || 0) > 0)
+      .reduce(
+        (sum, t) => sum + (parseFloat(t.amount) || 0),
+        0
+      );
+  }, [transactions]);
 
   const expense = useMemo(() => {
-  return transactions
-    .filter(t => Number(t.amount) < 0)
-    .reduce((sum, t) => sum + Number(t.amount), 0);
-}, [transactions]);
-
+    return transactions
+      .filter(t => (parseFloat(t.amount) || 0) < 0)
+      .reduce(
+        (sum, t) => sum + Math.abs(parseFloat(t.amount) || 0),
+        0
+      );
+  }, [transactions]);
 
   const chartData = [
     { name: "Income", value: income },
@@ -99,8 +106,8 @@ export default function Dashboard() {
       .toLowerCase()
       .includes(search.toLowerCase());
 
-    if (filter === "income") return t.amount > 0 && matchSearch;
-    if (filter === "expense") return t.amount < 0 && matchSearch;
+    if (filter === "income") return Number(t.amount) > 0 && matchSearch;
+    if (filter === "expense") return Number(t.amount) < 0 && matchSearch;
 
     return matchSearch;
   });
@@ -157,24 +164,24 @@ export default function Dashboard() {
 shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
           <h2>Total</h2>
           <p className="text-3xl font-bold">
-  ₹ {Number(total).toLocaleString("en-IN")}
-</p>
+            ₹ {Number(total).toLocaleString("en-IN")}
+          </p>
         </div>
 
         <div className={`bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-6 rounded-xl 
 shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
           <h2>Income</h2>
           <p className="text-3xl font-bold">
-  ₹ {Number(income).toLocaleString("en-IN")}
-</p>
+            ₹ {Number(income).toLocaleString("en-IN")}
+          </p>
         </div>
 
         <div className={`bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-6 rounded-xl 
 shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
           <h2>Expense</h2>
           <p className="text-3xl font-bold">
-  ₹ {Number(Math.abs(expense)).toLocaleString("en-IN")}
-</p>
+            ₹ {Number(Math.abs(expense)).toLocaleString("en-IN")}
+          </p>
         </div>
       </div>
 
@@ -183,8 +190,8 @@ shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
         {/* Pie Chart */}
         <div
           className={`${dark
-              ? "bg-gray-800/80 border border-gray-700"
-              : "bg-white/80 border border-gray-200"
+            ? "bg-gray-800/80 border border-gray-700"
+            : "bg-white/80 border border-gray-200"
             } backdrop-blur-md p-6 rounded-2xl shadow-lg`}
         >
           <h2 className="font-semibold text-lg mb-4 flex items-center gap-2">
@@ -219,8 +226,8 @@ shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
         {/* Line Chart */}
         <div
           className={`${dark
-              ? "bg-gray-800/80 border border-gray-700"
-              : "bg-white/80 border border-gray-200"
+            ? "bg-gray-800/80 border border-gray-700"
+            : "bg-white/80 border border-gray-200"
             } backdrop-blur-md p-6 rounded-2xl shadow-lg`}
         >
           <h2 className="font-semibold text-lg mb-4">
@@ -261,9 +268,9 @@ shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
           <BarChart width={500} height={300} data={categoryData}>
             <XAxis dataKey="name" stroke="#9ca3af" />
             <YAxis
-  stroke="#9ca3af"
-  domain={[(dataMin) => dataMin - 1000, (dataMax) => dataMax + 1000]}
-/>
+              stroke="#9ca3af"
+              domain={[(dataMin) => dataMin - 1000, (dataMax) => dataMax + 1000]}
+            />
             <Tooltip
               contentStyle={{
                 backgroundColor: "#1f2937",
@@ -398,7 +405,7 @@ ${dark
           >
             <span>{t.category}</span>
             <div className="flex gap-4 items-center">
-              <span className={t.amount > 0 ? "text-green-500" : "text-red-500"}>
+              <span className={Number(t.amount) > 0 ? "text-green-500" : "text-red-500"}>
                 ₹ {t.amount}
               </span>
               {user?.role !== "read-only" && (
