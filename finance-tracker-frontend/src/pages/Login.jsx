@@ -35,8 +35,7 @@ export default function Login() {
 
     } catch (err) {
       console.log("Error:", err.response?.data);
-alert(err.response?.data?.msg || "Login failed ❌");  // 👈 ADD THIS
-      alert("Login failed ❌");
+alert(err.response?.data?.msg || "Login failed ❌");
     }
   };
   const navigate = useNavigate();
@@ -45,21 +44,24 @@ alert(err.response?.data?.msg || "Login failed ❌");  // 👈 ADD THIS
     <div className="flex items-center justify-center h-screen bg-gray-200">
       <div className="bg-white p-6 rounded shadow w-80">
         <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
+        <form autoComplete="off">
 
         <input
-          type="email"
-          placeholder="Email"
-          value={form.email}
-          autoComplete="off"
+  type="email"
+  name="email"
+  placeholder="Email"
+  value={form.email}
+  autoComplete="new-email"
           className="w-full p-2 mb-2 border rounded"
           onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={form.password}
-          autoComplete="off"
+       <input
+  type="password"
+  name="password"
+  placeholder="Password"
+  value={form.password}
+  autoComplete="new-password"
           className="w-full p-2 mb-2 border rounded"
           onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
@@ -79,6 +81,7 @@ alert(err.response?.data?.msg || "Login failed ❌");  // 👈 ADD THIS
             Register
           </span>
         </p>
+        </form>
       </div>
     </div>
   );
