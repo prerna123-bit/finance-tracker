@@ -44,7 +44,13 @@ alert(err.response?.data?.msg || "Login failed ❌");
     <div className="flex items-center justify-center h-screen bg-gray-200">
       <div className="bg-white p-6 rounded shadow w-80">
         <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
-        <form autoComplete="off">
+        <form
+  autoComplete="off"
+  onSubmit={(e) => {
+    e.preventDefault();
+    handleLogin();
+  }}
+>
 
         <input
   type="email"
@@ -67,7 +73,7 @@ alert(err.response?.data?.msg || "Login failed ❌");
         />
 
         <button
-          onClick={handleLogin}
+  type="submit"
           className="w-full bg-blue-500 text-white p-2 rounded"
         >
           Login
