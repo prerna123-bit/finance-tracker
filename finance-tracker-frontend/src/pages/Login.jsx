@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
@@ -8,12 +8,12 @@ export default function Login() {
     email: "",
     password: "",
   });
- useEffect(() => {
-  setForm({
-    email: "",
-    password: "",
-  });
-}, [location.pathname]);
+  useEffect(() => {
+    setForm({
+      email: "",
+      password: "",
+    });
+  }, []);
 
   const handleLogin = async () => {
     try {
@@ -39,7 +39,6 @@ export default function Login() {
     }
   };
   const navigate = useNavigate();
-  const location = useLocation();
   const { login } = useAuth();
   return (
     <div className="flex items-center justify-center h-screen bg-gray-200">
