@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 
@@ -8,6 +8,12 @@ export default function Login() {
     email: "",
     password: "",
   });
+  useEffect(() => {
+    setForm({
+      email: "",
+      password: "",
+    });
+  }, []);
 
   const handleLogin = async () => {
     try {
@@ -18,11 +24,14 @@ export default function Login() {
         token: res.data.token,
         ...res.data.user
       });
+alert("Login success ✅");
 
-      alert("Login success ✅");
+setForm({
+  email: "",
+  password: "",
+});
 
-      // 👉 YAHI REDIRECT HOGA
-      navigate("/dashboard");
+navigate("/dashboard");
 
     } catch (err) {
       console.log(err.response?.data);   // 👈 ADD THIS
@@ -39,6 +48,8 @@ export default function Login() {
         <input
           type="email"
           placeholder="Email"
+          value={form.email}
+          autoComplete="off"
           className="w-full p-2 mb-2 border rounded"
           onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
@@ -46,6 +57,8 @@ export default function Login() {
         <input
           type="password"
           placeholder="Password"
+          value={form.password}
+          autoComplete="off"
           className="w-full p-2 mb-2 border rounded"
           onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
