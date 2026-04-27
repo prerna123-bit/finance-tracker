@@ -71,20 +71,24 @@ export default function Dashboard() {
   }, [fetchData]);
 
 
-  const total = useMemo(() => {
-    return transactions.reduce((sum, t) => sum + t.amount, 0);
-  }, [transactions]);
+ const total = useMemo(() => {
+  return transactions.reduce((sum, t) => sum + Number(t.amount), 0);
+}, [transactions]);
+
+
   const income = useMemo(() => {
-    return transactions
-      .filter(t => t.amount > 0)
-      .reduce((sum, t) => sum + t.amount, 0);
-  }, [transactions]);
+  return transactions
+    .filter(t => Number(t.amount) > 0)
+    .reduce((sum, t) => sum + Number(t.amount), 0);
+}, [transactions]);
 
   const expense = useMemo(() => {
-    return transactions
-      .filter(t => t.amount < 0)
-      .reduce((sum, t) => sum + t.amount, 0);
-  }, [transactions]);
+  return transactions
+    .filter(t => Number(t.amount) < 0)
+    .reduce((sum, t) => sum + Number(t.amount), 0);
+}, [transactions]);
+
+
   const chartData = [
     { name: "Income", value: income },
     { name: "Expense", value: Math.abs(expense) },
@@ -111,7 +115,7 @@ export default function Dashboard() {
       if (!acc[t.category]) {
         acc[t.category] = { name: t.category, value: 0 };
       }
-      acc[t.category].value += t.amount;
+      acc[t.category].value += Number(t.amount);
       return acc;
     }, {})
   );
@@ -130,7 +134,7 @@ export default function Dashboard() {
         };
       }
 
-      acc[monthIndex].value += t.amount;
+      acc[monthIndex].value += Number(t.amount);
       return acc;
     }, {})
   )
@@ -152,19 +156,25 @@ export default function Dashboard() {
         <div className={`bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-6 rounded-xl 
 shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
           <h2>Total</h2>
-          <p className="text-3xl font-bold">₹ {total}</p>
+          <p className="text-3xl font-bold">
+  ₹ {Number(total).toLocaleString("en-IN")}
+</p>
         </div>
 
         <div className={`bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-6 rounded-xl 
 shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
           <h2>Income</h2>
-          <p className="text-3xl font-bold">₹ {income}</p>
+          <p className="text-3xl font-bold">
+  ₹ {Number(income).toLocaleString("en-IN")}
+</p>
         </div>
 
         <div className={`bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-6 rounded-xl 
 shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
           <h2>Expense</h2>
-          <p className="text-3xl font-bold">₹ {Math.abs(expense)}</p>
+          <p className="text-3xl font-bold">
+  ₹ {Number(Math.abs(expense)).toLocaleString("en-IN")}
+</p>
         </div>
       </div>
 
@@ -245,10 +255,15 @@ shadow ${dark ? "shadow-black/50 border border-gray-700" : "shadow-md"}`}>
         <h2 className="font-semibold text-lg mb-4 flex items-center gap-2">
           📊 Category Wise
         </h2>
+
+        //barchart
         <div className="flex justify-center">
           <BarChart width={500} height={300} data={categoryData}>
             <XAxis dataKey="name" stroke="#9ca3af" />
-            <YAxis stroke="#9ca3af" />
+            <YAxis
+  stroke="#9ca3af"
+  domain={[(dataMin) => dataMin - 1000, (dataMax) => dataMax + 1000]}
+/>
             <Tooltip
               contentStyle={{
                 backgroundColor: "#1f2937",
