@@ -14,7 +14,7 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "https://finance-tracker-git-main-prerna123-bits-projects.vercel.app",
-    "https://finance-tracker-gshfdnrbq-prerna123-bits-projects.vercel.app"
+    "https://finance-tracker-rouge-beta.vercel.app"
   ],
   credentials: true
 }));
