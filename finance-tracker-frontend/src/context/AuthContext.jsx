@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   setUser(null);
 
-  window.location.replace("/login?reset=" + Date.now());
+ window.location.replace("/?reset=" + Date.now());
 };
 
     return (
