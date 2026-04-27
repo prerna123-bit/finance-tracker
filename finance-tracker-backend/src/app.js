@@ -13,7 +13,7 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://vercel.com/prerna123-bits-projects/finance-tracker/73F5kC6KWbWxkEopf4KPSfHJQXkM"
+    "https://finance-tracker-git-main-prerna123-bits-projects.vercel.app"
   ],
   credentials: true
 }));
