@@ -9,11 +9,24 @@ import analyticsRoutes from "./routes/analyticsRoutes.js";
 
 const app = express();
 
-app.use(cors());
+// CORS
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://vercel.com/prerna123-bits-projects/finance-tracker/73F5kC6KWbWxkEopf4KPSfHJQXkM"
+  ],
+  credentials: true
+}));
+
 app.use(helmet());
 app.use(express.json());
 
-// 🔐 limiters
+// Root route
+app.get("/", (req, res) => {
+  res.send("Backend is running");
+});
+
+// limiters
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5,
@@ -25,7 +38,7 @@ const transactionLimiter = rateLimit({
   max: 100,
 });
 
-// 🔥 APPLY HERE
+// Apply limiters
 app.use("/api/auth", authLimiter);
 app.use("/api/transactions", transactionLimiter);
 
