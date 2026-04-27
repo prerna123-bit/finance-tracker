@@ -5,15 +5,25 @@ import jwt from "jsonwebtoken";
 import { pool } from "../config/db.js";
 
 // REGISTER
+// REGISTER
 export const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
     const hashed = await bcrypt.hash(password, 10);
 
+    // role decide by email
+    let role = "user";
+
+    if (email === "admin@gmail.com") {
+      role = "admin";
+    } else if (email === "readonly@gmail.com") {
+      role = "read-only";
+    }
+
     const result = await pool.query(
       "INSERT INTO users(name,email,password,role) VALUES($1,$2,$3,$4) RETURNING *",
-      [name, email, hashed, "user"]
+      [name, email, hashed, role]
     );
 
     res.json(result.rows[0]);
