@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
@@ -8,12 +8,12 @@ export default function Login() {
     email: "",
     password: "",
   });
-  useEffect(() => {
-    setForm({
-      email: "",
-      password: "",
-    });
-  }, []);
+ useEffect(() => {
+  setForm({
+    email: "",
+    password: "",
+  });
+}, [location.pathname]);
 
   const handleLogin = async () => {
     try {
@@ -24,14 +24,14 @@ export default function Login() {
         token: res.data.token,
         ...res.data.user
       });
-alert("Login success ✅");
+      alert("Login success ✅");
 
-setForm({
-  email: "",
-  password: "",
-});
+      setForm({
+        email: "",
+        password: "",
+      });
 
-navigate("/dashboard");
+      navigate("/dashboard");
 
     } catch (err) {
       console.log(err.response?.data);   // 👈 ADD THIS
@@ -39,6 +39,7 @@ navigate("/dashboard");
     }
   };
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
   return (
     <div className="flex items-center justify-center h-screen bg-gray-200">
