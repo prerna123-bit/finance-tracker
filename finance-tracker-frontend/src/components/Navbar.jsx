@@ -9,7 +9,7 @@ export default function Navbar() {
 
   return (
     <div
-      className={`flex justify-between items-center px-8 py-4 rounded-2xl mb-6 
+  className={`flex flex-col md:flex-row justify-between items-center gap-4 px-4 md:px-8 py-4 rounded-2xl mb-6 w-full
       ${
         dark
           ? "bg-gradient-to-r from-gray-800 to-gray-900 border border-gray-700 shadow-lg"
@@ -17,13 +17,13 @@ export default function Navbar() {
       }`}
     >
       {/* Left */}
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
         <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-3 rounded-full shadow-lg">
           💰
         </div>
 
         <div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
             Finance Tracker
           </h1>
           <p className="text-sm text-gray-400">
@@ -58,7 +58,7 @@ export default function Navbar() {
             logout();
             navigate("/");
           }}
-          className="px-4 py-2 rounded-xl bg-red-500 text-white hover:bg-red-600 transition"
+          className="px-4 py-2 rounded-xl bg-red-500 text-white hover:bg-red-600 transition w-full sm:w-auto"
         >
           Logout
         </button>
